@@ -1,0 +1,137 @@
+## configuration file for "parse_iphoto_album_data_xml.py" ##
+# NOTE: Unless marked as "optional," all fields are required.
+
+INPUT:
+
+  # Input XML parts.
+  TARGET_XML_KEY_INFO:
+
+    # XML part of '<key>Master Image List</key>'
+    MASTER_IMAGE_LIST:
+      # Path to the iPhoto AlbumData.xml file containing the master image list.
+      XML_PATH: './data/AlbumData.xml'
+      # XPath to the <dict> element that contains the master image list, relative to the root tag.
+      TARGET_DICT_XPATH_RELATIVE_FROM_ROOT_TAG: './dict'
+      # Key inside the above dictionary whose value is the master image list.
+      TARGET_KEY: 'Master Image List'
+      # Content field name and Apple XML types in the master image list.
+      # Dict here represents <dict> with limited numbers of <key>s.
+      # One element list here represents <array> or <dict> with unlimited numbers of keys.
+      TARGET_VALUE_TYPES:
+        - Caption: 'string'
+          Comment: 'string'
+          GUID: 'string'
+          Roll: 'integer'
+          Rating: 'integer'
+          ImagePath: 'string'
+          MediaType: 'string'
+          ModDateAsTimerInterval: 'real'
+          DateAsTimerInterval: 'real'
+          DateAsTimerIntervalGMT: 'real'
+          MetaModDateAsTimerInterval: 'real'
+          OriginalPath: 'string'
+          ThumbPath: 'string'
+          latitude: 'real'
+          longitude: 'real'
+
+    # XML part of '<key>List of Albums</key>'
+    LIST_OF_ALBUMS:
+      # Path to the iPhoto AlbumData.xml file containing the list of albums.
+      XML_PATH: './data/AlbumData.xml'
+      # XPath to the <dict> element that contains the album list, relative to the root tag.
+      TARGET_DICT_XPATH_RELATIVE_FROM_ROOT_TAG: './dict'
+      # Key inside the above dictionary whose value is the list of albums.
+      TARGET_KEY: 'List of Albums'
+      # Content field name and Apple XML types in the list of albums.
+      # Dict here represents <dict> with limited numbers of <key>s.
+      # One element list here represents <array> or <dict> with unlimited numbers of keys.
+      TARGET_VALUE_TYPES:
+        - AlbumId: 'integer'
+          AlbumName: 'string'
+          Album Type: 'string'
+          GUID: 'string'
+          TransitionName: 'string'
+          RepeatSlideShow: 'string'
+          PlayMusic: 'string'
+          SongPath: 'string'
+          KeyList:
+            - 'string'
+          PhotoCount: 'integer'
+          Sort Order: 'string'
+          KeyPhotoKey: 'string'
+          ProjectEarliestDateAsTimerInterval: 'real'
+          TransitionSpeed: 'real'
+          ShuffleSlides: 'true'
+          SlideshowUseTitles: 'true'
+          TransitionDirection: 'integer'
+          SecondsPerSlide: 'integer'
+          Master: 'true'
+
+PROCESS:
+
+  # (optional) Filtering rules for each XML fields.
+  # Matching is done by XML tag content; null means missing values.
+  # If INCLUDE is given, only matching rows are kept; if EXCLUDE is given, matching rows are removed.
+  # Both INCLUDE and EXCLUDE can be combined.
+  # Error may occur when generating TXT, if necessary data is filtered out.
+  FIELDS_FILTER:
+
+    # MASTER_IMAGE_LIST:
+    #   INCLUDE:
+    #     OriginalPath:
+    #       - ''
+    #       - null
+
+    LIST_OF_ALBUMS:
+      INCLUDE:
+        Album Type:
+          - 'Regular'
+
+  # Specifies which XML fields correspond to important target fields used in processing.
+  TARGET_FIELDS:
+
+    MASTER_IMAGE_LIST:
+      IMAGE_PATH: 'ImagePath'
+      ORIGINAL_PATH: 'OriginalPath'
+
+    LIST_OF_ALBUMS:
+      ALBUM_ID: 'AlbumId'
+      ALBUM_TYPE: 'Album Type'
+      ALBUM_NAME: 'AlbumName'
+      MASTER_IMAGE_KEY_LIST: 'KeyList'
+
+
+OUTPUT:
+
+  CSV:
+
+    # Output CSV of the master image list.
+    MASTER_IMAGE_LIST:
+      # Whether to generate the CSV. If false, the other fields is not required.
+      GENERATE: true
+      FILE_PATH: './results/iphoto_master_image_list.csv'
+      ENCODING: 'utf-8-sig'
+
+    # Output CSV of the list of albums.
+    LIST_OF_ALBUMS:
+      GENERATE: true
+      FILE_PATH: './results/iphoto_list_of_albums_only_regular.csv'
+      ENCODING: 'utf-8-sig'
+      # Delimiter used when joining list or dict values into a single cell.
+      LIST_AND_DICT_DELIMITER: '|'
+
+  TXT:
+
+    # Output TXTs of albums composition.
+    ALBUM_COMPOSITION:
+      GENERATE: true
+      # Output directory where TXT files will be saved (must exist and be empty of TXT files).
+      DIR_PATH: './results/iphoto_album_composition'
+      ENCODING: 'utf-8'
+      NAME_CONFIG:
+        # Number of digits to zero padding to album IDs in filenames.
+        ALBUM_ID_ZERO_PADDING_LENGETH: 6
+        # Character used to join album ID, album type, and album name in the filename.
+        CHAR_TO_JOIN_VALUES: '_'
+        # Replacement character for invalid filesystem characters in album names.
+        ALBUM_NAME_ESCAPE_CHAR: '^'

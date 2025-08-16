@@ -1,0 +1,14 @@
+/__pycache__
+/apple_xml_tools/__pycache__
+
+/configs/*
+!/configs/parse_iphoto_album_data_xml.yaml
+
+/data/*
+!/data/.gitkeep
+
+/results/*
+!/results/iphoto_album_composition/
+
+/results/iphoto_album_composition/*
+!/results/iphoto_album_composition/.gitkeep
