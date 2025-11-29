@@ -32,6 +32,9 @@
 - **ライセンス**: このリポジトリ内の[`LICENSE`](./LICENSE)を参照してください。
 - **開発者**: U-MAN Lab. ([https://u-man-lab.com/](https://u-man-lab.com/))
 
+★このリポジトリのスクリプトは、以下の記事で利用するために実装しました。★  
+[iPhotoの写真・動画＆アルバムをNASに移行しました。 | U-MAN Lab.](https://u-man-lab.com/photos-videos-albums-migration-from-iphoto-to-nas/?utm_source=github&utm_medium=social&utm_campaign=apple_xml_tools)
+
 ---
 
 ## 1. インストールと使用方法

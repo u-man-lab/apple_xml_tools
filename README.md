@@ -32,6 +32,9 @@ The repository includes two supporting modules:
 - **License**: See [`LICENSE`](./LICENSE) in this repository.
 - **Developer**: U-MAN Lab. ([https://u-man-lab.com/](https://u-man-lab.com/))
 
+★The scripts in this repository were implemented for use in the following article.★  
+[iPhotoの写真・動画＆アルバムをNASに移行しました。 | U-MAN Lab.](https://u-man-lab.com/photos-videos-albums-migration-from-iphoto-to-nas/?utm_source=github&utm_medium=social&utm_campaign=apple_xml_tools)
+
 ---
 
 ## 1. Installation & Usage
